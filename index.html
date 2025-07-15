@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Конвертер единиц</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body class="dark-theme">
+    <div class="converter-container">
+      <button class="language-switcher" id="language-switcher">
+        <i class="fas fa-globe"></i>
+      </button>
+      <div class="language-dropdown" id="language-dropdown">
+        <div class="language-option active" data-lang="ru">
+          <img src="flags/ru.svg" class="language-flag" />
+          Русский
+        </div>
+        <div class="language-option" data-lang="en">
+          <img src="flags/en.svg" class="language-flag" />
+          English
+        </div>
+        <div class="language-option" data-lang="es">
+          <img src="flags/es.svg" class="language-flag" />
+          Español
+        </div>
+        <div class="language-option" data-lang="fr">
+          <img src="flags/fr.svg" class="language-flag" />
+          Français
+        </div>
+        <div class="language-option" data-lang="de">
+          <img src="flags/de.svg" class="language-flag" />
+          Deutsch
+        </div>
+        <div class="language-option" data-lang="it">
+          <img src="flags/it.svg" class="language-flag" />
+          Italiano
+        </div>
+        <div class="language-option" data-lang="pt">
+          <img src="flags/pt.svg" class="language-flag" />
+          Português
+        </div>
+        <div class="language-option" data-lang="zh">
+          <img src="flags/cn.svg" class="language-flag" />
+          中文 (简体)
+        </div>
+        <div class="language-option" data-lang="ja">
+          <img src="flags/jp.svg" class="language-flag" />
+          日本語
+        </div>
+        <div class="language-option" data-lang="ar">
+          <img src="flags/sa.svg" class="language-flag" />
+          العربية
+        </div>
+      </div>
+
+      <button class="theme-switcher" id="theme-switcher">Светлая тема</button>
+      <h1 id="app-title">Конвертер единиц</h1>
+
+      <div class="control-group">
+        <select id="unit-type">
+          <option value="length" data-i18n="length">Длина</option>
+          <option value="weight" data-i18n="weight">Вес</option>
+          <option value="volume" data-i18n="volume">Объём</option>
+        </select>
+        <select id="from-unit"></select>
+        <select id="to-unit"></select>
+        <input
+          type="text"
+          id="value-input"
+          placeholder="Введите значение"
+          inputmode="decimal"
+        />
+        <button id="convert-btn" data-i18n="convert">Конвертировать</button>
+        <div class="result" id="result"></div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

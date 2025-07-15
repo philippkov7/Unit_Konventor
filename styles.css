@@ -1,0 +1,403 @@
+/* Общий сброс стилей для всех элементов и псевдоэлементов */
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* Учитываем padding и border в ширине элемента */
+  margin: 0; /* Убираем внешние отступы */
+  padding: 0; /* Убираем внутренние отступы */
+}
+
+/* Основные стили для body */
+body {
+  font-family: "Segoe UI", sans-serif; /* Основной шрифт */
+  min-height: 100vh; /* Минимальная высота - весь экран */
+  display: flex; /* Используем flexbox для центрирования */
+  justify-content: center; /* Горизонтальное центрирование */
+  align-items: center; /* Вертикальное центрирование */
+  overflow: hidden; /* Скрываем всё, что выходит за границы */
+  transition: all 0.3s ease; /* Плавные переходы для всех свойств */
+}
+
+/* Стили для темной темы */
+body.dark-theme {
+  /* Цветовые переменные для темной темы */
+  --neon-blue: #08f;
+  --neon-pink: #f0f;
+  --neon-green: #0f8;
+  --neon-red: #f44;
+  --bg-color: #111;
+  --container-bg: rgba(20, 20, 30, 0.85);
+  --text-color: #fff;
+  --input-bg: rgba(10, 10, 20, 0.7);
+  --result-bg: rgba(0, 20, 40, 0.3);
+  --border-color: rgba(0, 136, 255, 0.3);
+  --dropdown-bg: rgba(30, 30, 45, 0.95);
+
+  /* Градиентный фон для темной темы */
+  background: radial-gradient(
+      circle at 20% 30%,
+      rgba(0, 136, 255, 0.15) 0,
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      rgba(255, 0, 255, 0.15) 0,
+      transparent 30%
+    ),
+    var(--bg-color);
+  color: var(--text-color); /* Цвет текста */
+  animation: bgPulse 8s infinite alternate; /* Анимация пульсации фона */
+}
+
+/* Стили для светлой темы */
+body.light-theme {
+  /* Цветовые переменные для светлой темы */
+  --neon-blue: #6ab7ff;
+  --neon-pink: #ff94c2;
+  --neon-green: #4caf50;
+  --neon-red: #f44336;
+  --bg-color: #f0f0f0;
+  --container-bg: rgba(255, 255, 255, 0.9);
+  --text-color: #333;
+  --input-bg: rgba(255, 255, 255, 0.7);
+  --result-bg: rgba(240, 240, 240, 0.7);
+  --border-color: rgba(106, 183, 255, 0.5);
+  --dropdown-bg: rgba(255, 255, 255, 0.95);
+
+  /* Градиентный фон для светлой темы */
+  background: radial-gradient(
+      circle at 20% 30%,
+      rgba(106, 183, 255, 0.1) 0,
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      rgba(255, 148, 194, 0.1) 0,
+      transparent 30%
+    ),
+    var(--bg-color);
+  color: var(--text-color); /* Цвет текста */
+}
+
+/* Контейнер конвертера */
+.converter-container {
+  position: relative; /* Относительное позиционирование */
+  width: 500px; /* Фиксированная ширина */
+  padding: 2.5rem; /* Внутренние отступы */
+  background: var(--container-bg); /* Фон из переменной */
+  border-radius: 16px; /* Закругленные углы */
+  box-shadow: 0 0 15px var(--neon-blue), 0 0 30px rgba(0, 136, 255, 0.3); /* Тень с неоновым эффектом */
+  border: 1px solid var(--border-color); /* Граница */
+  backdrop-filter: blur(8px); /* Размытие фона */
+  z-index: 1; /* Поднимаем над фоном */
+}
+
+/* Стили для кнопок переключения темы и конвертации */
+.theme-switcher,
+#convert-btn {
+  width: 100%; /* На всю ширину */
+  padding: 14px; /* Внутренние отступы */
+  background: linear-gradient(
+    45deg,
+    var(--neon-blue),
+    var(--neon-pink)
+  ); /* Градиентный фон */
+  border: none; /* Без границы */
+  color: #fff; /* Белый текст */
+  font-weight: 700; /* Жирный шрифт */
+  border-radius: 8px; /* Закругленные углы */
+  cursor: pointer; /* Курсор-указатель */
+  font-size: 1.1rem; /* Размер шрифта */
+  transition: all 0.3s ease; /* Плавные переходы */
+  position: relative; /* Для псевдоэлементов */
+  overflow: hidden; /* Скрываем выходящее за границы */
+}
+
+/* Эффекты при наведении на кнопки */
+.theme-switcher:hover,
+#convert-btn:hover {
+  transform: translateY(-2px); /* Сдвиг вверх */
+  box-shadow: 0 5px 15px rgba(0, 136, 255, 0.4),
+    0 5px 30px rgba(255, 0, 255, 0.2); /* Усиленная тень */
+}
+
+/* Псевдоэлемент для эффекта блика на кнопках */
+.theme-switcher::after,
+#convert-btn::after {
+  content: ""; /* Обязательно для псевдоэлементов */
+  position: absolute; /* Абсолютное позиционирование */
+  top: -50%; /* Выше кнопки */
+  left: -50%; /* Левее кнопки */
+  width: 200%; /* Ширина в 2 раза больше */
+  height: 200%; /* Высота в 2 раза больше */
+  background: linear-gradient(
+    to bottom right,
+    transparent 45%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 55%
+  ); /* Градиент для эффекта блика */
+  transform: rotate(30deg); /* Наклон градиента */
+  transition: all 0.3s ease; /* Плавное изменение */
+}
+
+/* Анимация блика при наведении */
+.theme-switcher:hover::after,
+#convert-btn:hover::after {
+  left: 100%; /* Сдвигаем вправо */
+}
+
+/* Группа элементов управления */
+.control-group {
+  display: flex; /* Flex-контейнер */
+  flex-direction: column; /* Элементы в колонку */
+  gap: 1.5rem; /* Расстояние между элементами */
+}
+
+/* Заголовок */
+h1 {
+  text-align: center; /* Выравнивание по центру */
+  margin: 0 0 1.5rem; /* Отступ снизу */
+  font-size: 2.2rem; /* Размер шрифта */
+  background: linear-gradient(
+    90deg,
+    var(--neon-blue),
+    var(--neon-pink)
+  ); /* Градиентный текст */
+  -webkit-background-clip: text; /* Обрезаем фон по тексту */
+  background-clip: text; /* Обрезаем фон по тексту */
+  color: transparent; /* Прозрачный текст */
+  text-shadow: 0 0 8px rgba(0, 136, 255, 0.4); /* Тень текста */
+}
+
+/* Стили для select и input */
+select,
+input {
+  width: 100%; /* На всю ширину */
+  padding: 12px 15px; /* Внутренние отступы */
+  margin-bottom: 1rem; /* Отступ снизу */
+  background: var(--input-bg); /* Фон из переменной */
+  border: 1px solid var(--border-color); /* Граница */
+  color: var(--text-color); /* Цвет текста */
+  border-radius: 8px; /* Закругленные углы */
+  font-size: 1rem; /* Размер шрифта */
+  transition: all 0.3s ease; /* Плавные переходы */
+}
+
+/* Стили для фокуса */
+select:focus,
+input:focus {
+  outline: none; /* Убираем стандартный outline */
+  border-color: var(--neon-green); /* Цвет границы */
+  box-shadow: 0 0 10px rgba(0, 248, 136, 0.3); /* Тень */
+}
+
+/* Блок результата */
+.result {
+  margin-top: 1.5rem; /* Отступ сверху */
+  padding: 1rem; /* Внутренние отступы */
+  background: var(--result-bg); /* Фон */
+  border-left: 3px solid transparent; /* Прозрачная граница слева */
+  font-size: 1.2rem; /* Размер шрифта */
+  border-radius: 0 8px 8px 0; /* Закругление правых углов */
+  min-height: 20px; /* Минимальная высота */
+  opacity: 0.3; /* Полупрозрачный по умолчанию */
+  transition: all 0.3s ease; /* Плавные переходы */
+  white-space: nowrap; /* Текст в одну строку */
+  overflow: hidden; /* Скрываем лишнее */
+  text-overflow: ellipsis; /* Многоточие при переполнении */
+}
+
+/* Активное состояние результата */
+.result.active {
+  border-left-color: var(--neon-green); /* Цвет границы */
+  opacity: 1; /* Полная непрозрачность */
+  animation: pulse 2s infinite alternate; /* Анимация пульсации */
+}
+
+/* Состояние ошибки */
+.result.error {
+  border-left-color: var(--neon-red); /* Красная граница */
+  opacity: 1; /* Полная непрозрачность */
+  animation: none; /* Без анимации */
+}
+
+/* Кнопка переключения языка */
+.language-switcher {
+  position: absolute; /* Абсолютное позиционирование */
+  top: 20px; /* Отступ сверху */
+  right: 20px; /* Отступ справа */
+  width: 44px; /* Фиксированная ширина */
+  height: 44px; /* Фиксированная высота */
+  background: linear-gradient(
+    45deg,
+    var(--neon-blue),
+    var(--neon-pink)
+  ); /* Градиент */
+  border: none; /* Без границы */
+  border-radius: 8px; /* Закругленные углы */
+  cursor: pointer; /* Курсор-указатель */
+  display: flex; /* Flex-контейнер */
+  align-items: center; /* Центрирование по вертикали */
+  justify-content: center; /* Центрирование по горизонтали */
+  transition: all 0.3s ease; /* Плавные переходы */
+  z-index: 10; /* Поднимаем над другими элементами */
+}
+
+/* Эффект при наведении на кнопку языка */
+.language-switcher:hover {
+  transform: translateY(-2px) scale(1.05); /* Сдвиг вверх и увеличение */
+  box-shadow: 0 5px 15px rgba(0, 136, 255, 0.4),
+    0 5px 30px rgba(255, 0, 255, 0.2); /* Тень */
+}
+
+/* Иконка на кнопке языка */
+.language-switcher i {
+  font-size: 24px; /* Размер иконки */
+  color: #fff; /* Белый цвет */
+}
+
+/* Выпадающий список языков */
+.language-dropdown {
+  position: absolute; /* Абсолютное позиционирование */
+  top: 70px; /* Отступ сверху */
+  right: 20px; /* Отступ справа */
+  background: var(--dropdown-bg); /* Фон */
+  border-radius: 8px; /* Закругленные углы */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Тень */
+  padding: 10px; /* Внутренние отступы */
+  width: 200px; /* Фиксированная ширина */
+  z-index: 20; /* Поднимаем над другими элементами */
+  display: none; /* Скрыт по умолчанию */
+  backdrop-filter: blur(10px); /* Размытие фона */
+  border: 1px solid var(--border-color); /* Граница */
+}
+
+/* Показанное состояние выпадающего списка */
+.language-dropdown.show {
+  display: block; /* Показываем */
+  animation: fadeIn 0.3s ease; /* Анимация появления */
+}
+
+/* Элемент выбора языка */
+.language-option {
+  padding: 8px 12px; /* Внутренние отступы */
+  border-radius: 4px; /* Закругленные углы */
+  cursor: pointer; /* Курсор-указатель */
+  transition: all 0.3s ease; /* Плавные переходы */
+  display: flex; /* Flex-контейнер */
+  align-items: center; /* Центрирование по вертикали */
+}
+
+/* Эффект при наведении на вариант языка */
+.language-option:hover {
+  background: rgba(0, 136, 255, 0.2); /* Полупрозрачный фон */
+}
+
+/* Активный вариант языка */
+.language-option.active {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 136, 255, 0.3),
+    transparent
+  ); /* Градиент */
+  font-weight: 700; /* Жирный шрифт */
+}
+
+/* Флаг языка */
+.language-flag {
+  width: 24px; /* Ширина */
+  height: 16px; /* Высота */
+  margin-right: 10px; /* Отступ справа */
+  border-radius: 2px; /* Легкое закругление */
+  object-fit: cover; /* Заполнение с сохранением пропорций */
+}
+
+/* Фоновый узор */
+body::before {
+  content: ""; /* Обязательно для псевдоэлементов */
+  position: fixed; /* Фиксированное позиционирование */
+  top: 0; /* Вверху */
+  left: 0; /* Слева */
+  width: 100%; /* На всю ширину */
+  height: 100%; /* На всю высоту */
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="%2308f" stroke-width="0.5" fill="none" opacity="0.03"/></svg>'),
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60" stroke="%23f0f" stroke-width="0.5" fill="none" opacity="0.03"/></svg>');
+  background-size: 100px 100px; /* Размер фоновых изображений */
+  animation: moveBackground 40s linear infinite; /* Анимация движения фона */
+  z-index: -1; /* Под основным контентом */
+}
+
+/* Сканирующая линия для темной темы */
+.dark-theme .converter-container::before {
+  content: ""; /* Обязательно для псевдоэлементов */
+  position: absolute; /* Абсолютное позиционирование */
+  top: 0; /* Вверху */
+  left: 0; /* Слева */
+  right: 0; /* Справа */
+  height: 2px; /* Толщина линии */
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--neon-blue),
+    transparent
+  ); /* Градиентная линия */
+  animation: scanline 3s linear infinite; /* Анимация движения линии */
+  opacity: 0.7; /* Полупрозрачность */
+}
+
+/* Анимация пульсации фона */
+@keyframes bgPulse {
+  0% {
+    background-color: #111; /* Начальный цвет */
+  }
+  100% {
+    background-color: #151520; /* Конечный цвет */
+  }
+}
+
+/* Анимация пульсации */
+@keyframes pulse {
+  from {
+    opacity: 0.9; /* Начальная прозрачность */
+  }
+  to {
+    opacity: 1; /* Конечная прозрачность */
+  }
+}
+
+/* Анимация движения фона */
+@keyframes moveBackground {
+  from {
+    background-position: 0 0; /* Начальная позиция */
+  }
+  to {
+    background-position: 1000px 1000px; /* Конечная позиция */
+  }
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+  from {
+    opacity: 0; /* Невидимый */
+    transform: translateY(-10px); /* Сдвиг вверх */
+  }
+  to {
+    opacity: 1; /* Полностью видимый */
+    transform: translateY(0); /* На своём месте */
+  }
+}
+
+/* Анимация сканирующей линии */
+@keyframes scanline {
+  0% {
+    top: 0; /* Вверху */
+    opacity: 0.5; /* Полупрозрачная */
+  }
+  50% {
+    opacity: 1; /* Полностью видимая */
+  }
+  100% {
+    top: 100%; /* Внизу */
+    opacity: 0.5; /* Полупрозрачная */
+  }
+}
